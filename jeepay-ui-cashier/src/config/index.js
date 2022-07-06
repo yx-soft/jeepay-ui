@@ -7,7 +7,8 @@
  */
 
 const errorPageRouteName = 'Error' //错误页面名称定义
-const passGuardRouteList = [errorPageRouteName]  // 不进入路由守卫的name
+const cashierCodePageRouteName = 'QrCashierAlipay' // 收银码
+const passGuardRouteList = [errorPageRouteName, cashierCodePageRouteName]  // 不进入路由守卫的name
 
 /** 定义支付方式 **/
 const payWay = {

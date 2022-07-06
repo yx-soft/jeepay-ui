@@ -9,6 +9,8 @@
 
 <script>
 import {getRedirectUrl} from '@/api/api';
+import channelUserIdUtil from '@/utils/channelUserId'
+import wayCodeUtils from '@/utils/wayCode'
 import config from "@/config";
 
 // 分发器页面，  用户扫码后进入的第一个页面：
@@ -29,13 +31,11 @@ export default {
 
 
     //TODO 需要获取到不同的商户的userId
-    // if(channelUserId.getChannelUserId()){// 存在
-    //
-    //   //重定向到对应的支付页面
-    //   this.$router.push({name: wayCodeUtils.getPayWay().routeName})
-    //   return ;
-    //
-    // }
+    if(channelUserIdUtil.getChannelUserId()){// 存在
+      //重定向到对应的支付页面
+      this.$router.push({name: wayCodeUtils.getPayWay().routeName})
+      return ;
+    }
 
     const that = this;
     //以下为不存在

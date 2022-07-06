@@ -29,7 +29,6 @@ export default {
     }).catch(res => {
       that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
     });
-
   },
   methods: {
 

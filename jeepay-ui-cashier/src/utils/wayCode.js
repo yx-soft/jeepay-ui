@@ -18,7 +18,7 @@ const getPayWay = function () {
     const userAgent = navigator.userAgent;
 
     if(userAgent.indexOf("MicroMessenger") >= 0){
-        return config.payWay.WXPAY;
+        return config.payWay.WECHAT;
     }
 
     if(userAgent.indexOf("AlipayClient") >= 0){

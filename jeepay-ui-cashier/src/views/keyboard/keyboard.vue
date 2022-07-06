@@ -11,7 +11,7 @@
   <div class="keyboard">
     <div class="keyboard-top">
       <div class="triangle-topleft-k"></div>
-      <div class="keyboard-tite">@小新支付</div>
+      <div class="keyboard-tite">@支付键盘</div>
       <div class="triangle-topleft-k" @click="concealSateFn">
         <div
           class="triangle-topleft"
@@ -42,9 +42,9 @@
         >
           {{ it != "del" ? it : "" }}
           <template class="" v-if="it == 'del'">
-            <!-- <div class="jiao"></div>
-            <div class="juxing"></div> -->
-            <img src="../../assets/icon/del.png" alt="" />
+            <div class="jiao"></div>
+            <div class="juxing"></div>
+            <!-- <img src="../../assets/icon/shanchu.svg" alt="" /> -->
           </template>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default {
       default: "#07c160",
     },
     money: {
-      type: String | Number,
+      type: Number,
       default: -1,
     },
     concealSate: {
@@ -126,9 +126,9 @@ export default {
       this.$emit("conceal");
     },
     onKeyboard(item, $event) {
-      /* setTimeout(() => {
+      setTimeout(() => {
         $event.style.background = "#fafafa";
-      }, 100); */
+      }, 100);
       // animation: heartBeat 0.2s;
       if (item == "del") {
         this.$emit("delTheAmount", item);
@@ -142,6 +142,7 @@ export default {
         item = obj[item];
       }
       this.$emit("enterTheAmount", item);
+      
     },
 
     goTouchstart(it, $event) {

@@ -27,6 +27,12 @@ router.beforeEach((to, from, next) => {
       return false
     }
 
+    if (config.passGuardRouteList.includes(to.name)) {
+      // 在免登录名单，直接进入
+      next()
+      return false
+    }
+
     //获取不到参数
     let token = to.params[config.urlTokenName];
     // let token = 'test';  // 不提交

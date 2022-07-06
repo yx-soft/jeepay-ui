@@ -28,13 +28,14 @@ const routes = [
     children: [
         { path: '/cashier/wxpay', name: 'CashierWxpay', component: () => import('../views/payway/Wxpay.vue') },
         { path: '/cashier/alipay', name: 'CashierAlipay', component: () => import('../views/payway/Alipay.vue') },
-        { path: '/cashier/ysfpay', name: 'CashierYsfpay', component: () => import('../views/payway/Ysfpay.vue') }
+        { path: '/cashier/ysfpay', name: 'CashierYsfpay', component: () => import('../views/payway/Ysfpay.vue') },
+        { path: '/cashier/qr/alipay', name: 'QrCashierAlipay', component: () => import('../views/qr/Alipay.vue') }, 
     ]
   }
 ]
 
 const router = new VueRouter({
-  mode: 'hash', //history 需要nginx适配    hash：是#的格式。
+  mode: 'history', //history 需要nginx适配    hash：是#的格式。
   base: "",
   routes
 })

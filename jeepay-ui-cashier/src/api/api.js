@@ -35,6 +35,21 @@ export function getPayPackage (amount) {
   })
 }
 
+/** 调起支付接口, 获取支付数据包 **/
+export function getQrPayPackage (qrCode, amount, remark) {
+  return request.request({
+    url: '/api/cashier/qr/pay',
+    method: 'POST',
+    data: {
+      wayCode: wayCode.getPayWay().wayCode,
+      qrCode: qrCode,
+      amount: amount,
+      remark: remark,
+      channelUserId: channelUserIdUtil.getChannelUserId()
+    }
+  })
+}
+
 /** 调起支付接口, 获取订单信息 **/
 export function getPayOrderInfo () {
   return request.request({
