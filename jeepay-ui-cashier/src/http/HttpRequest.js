@@ -49,7 +49,7 @@ class HttpRequest {
 
         return Promise.reject(resData)
       } else {
-        return resData.data
+        return resData
       }
     }, error => {
       this.destroy(url, showLoading)

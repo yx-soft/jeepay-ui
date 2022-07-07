@@ -1,7 +1,9 @@
 <template>
   <div>
     <header class="header">
-      <div class="header-text">付款给{{ merchantName }}</div>
+      <div class="header-text" v-show="merchantName">
+        付款给{{ merchantName }}
+      </div>
       <div class="header-img">
         <img :src="avatar ? avatar : icon_member_default" alt="" />
       </div>
@@ -101,79 +103,63 @@ export default {
     this.qrCode = this.$route.query.qr;
 
     // 设置商户名称
-    this.merchantName = this.$route.query.mchName; 
+    this.merchantName = this.$route.query.mchName;
   },
 
   methods: {
-    pay: function () {
+   
+    pay: function (){
+
       let that = this;
-      getQrPayPackage(this.qrCode, this.amount, this.remark)
-        .then((res) => {
-          //订单创建异常
-          if (res.code != "0") {
-            return alert(res.msg);
-          }
+      getQrPayPackage(this.qrCode, this.amount, this.remark).then(res => {
+        //订单创建异常
+        if(res.code != 0) {
+          return alert(res.msg);
+        }
 
-          if (res.data.orderState != 1) {
-            //订单不是支付中，说明订单异常
-            return alert(res.data.errMsg);
-          }
-
-          if (!window.AlipayJSBridge) {
-            document.addEventListener(
-              "AlipayJSBridgeReady",
-              function () {
-                that.doAlipay(res.data.alipayTradeNo);
-              },
-              false
-            );
-          } else {
+        if (!window.AlipayJSBridge) {
+          document.addEventListener('AlipayJSBridgeReady', function(){
             that.doAlipay(res.data.alipayTradeNo);
-          }
-        })
-        .catch((res) => {
-          that.$router.push({
-            name: config.errorPageRouteName,
-            params: { errInfo: res.msg },
-          });
-        });
+          }, false);
+        }else{
+          that.doAlipay(res.data.alipayTradeNo);
+        }
+
+      }).catch(res => {
+        that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
+      });
     },
 
-    doAlipay(alipayTradeNo) {
-      const that = this;
 
+    doAlipay(alipayTradeNo){
+      const that = this
       // eslint-disable-next-line no-undef
-      AlipayJSBridge.call(
-        "tradePay",
-        {
-          tradeNO: alipayTradeNo,
-        },
-        function (data) {
-          if ("9000" == data.resultCode) {
-            // alert('支付成功！');
+      AlipayJSBridge.call("tradePay", {
+        tradeNO: alipayTradeNo
+      }, function (data) {
+        if ("9000" == data.resultCode) {
+          // alert('支付成功！');
 
-            // //重定向
-            if (that.payOrderInfo.returnUrl) {
-              location.href = that.payOrderInfo.returnUrl;
-            } else {
-              alert("支付成功！");
-              window.AlipayJSBridge.call("closeWebview");
-            }
-
-            //‘8000’：后台获取支付结果超时，暂时未拿到支付结果;
-            // ‘6004’：支付过程中网络出错， 暂时未拿到支付结果;
-          } else if ("8000" == data.resultCode || "6004" == data.resultCode) {
-            //其他
-
-            alert(JSON.stringify(data));
-            window.AlipayJSBridge.call("closeWebview");
-          } else {
-            ///其他异常信息， 需要取消订单
-            alert("用户已取消！");
-            window.AlipayJSBridge.call("closeWebview");
+          // //重定向
+          if(that.payOrderInfo.returnUrl){
+            location.href = that.payOrderInfo.returnUrl;
+          }else{
+            alert('支付成功！');
+            window.AlipayJSBridge.call('closeWebview')
           }
+
+          //‘8000’：后台获取支付结果超时，暂时未拿到支付结果;
+        // ‘6004’：支付过程中网络出错， 暂时未拿到支付结果;
+        }else if("8000" == data.resultCode || "6004" == data.resultCode){ //其他
+
+          alert(JSON.stringify(data));
+          window.AlipayJSBridge.call('closeWebview')
+
+        }else{ ///其他异常信息， 需要取消订单
+          alert('用户已取消！');
+          window.AlipayJSBridge.call('closeWebview')
         }
-      );
+      });
     },
 
     // 输入备注
@@ -247,7 +233,11 @@ export default {
       if (amt2 < 0) {
         return false;
       } else if (amt2 == 0) {
-        return true;
+        if (amt1 == "0" || amt1 == "0." || amt1 == "0.0") {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         // 第四步：判断金额小数点后是否超过两位
         if (amt1.indexOf(".") != -1) {
