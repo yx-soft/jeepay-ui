@@ -34,16 +34,16 @@ router.beforeEach((to, from, next) => {
     }
 
     //获取不到参数
-    let token = to.params[config.urlTokenName];
-    // let token = 'test';  // 不提交
-    if(token){  //放置token信息
-        config.cacheToken = token;
-    }
+    // let token = to.params[config.urlTokenName];
+    // // let token = 'test';  // 不提交
+    // if(token){  //放置token信息
+    //     config.cacheToken = token;
+    // }
 
-    if(!config.cacheToken) {
-        next({ name: config.errorPageRouteName, params: { errInfo: "请通过二维码进入支付页面！" } })
-        return false;
-    }
+    // if(!config.cacheToken) {
+    //     next({ name: config.errorPageRouteName, params: { errInfo: "请通过二维码进入支付页面！" } })
+    //     return false;
+    // }
 
     //获取不到支付类型, 需要跳转到错误页面
     if( ! wayCode.getPayWay() ) {
