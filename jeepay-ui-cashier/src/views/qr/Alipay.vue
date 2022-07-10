@@ -1,7 +1,7 @@
 <template>
   <div>
     <header class="header">
-      <div class="header-text" v-show="merchantName">
+      <div class="header-text">
         付款给{{ merchantName }}
       </div>
       <div class="header-img">
