@@ -23,21 +23,27 @@ export default {
 
     console.log("正在跳转", this.$router.params)
 
+    const that = this;
+
     // eslint-disable-next-line no-constant-condition
     // if( true ){
     //   this.$router.push({name: "CashierAlipay"})
     //   return;
-    // }
+    // } 
 
-
-    //TODO 需要获取到不同的商户的userId
-    if(channelUserIdUtil.getChannelUserId()){// 存在
-      //重定向到对应的支付页面
-      this.$router.push({name: wayCodeUtils.getPayWay().routeName})
+    if(wayCodeUtils.getPayWay() != config.payWay.ALIPAY){
+      this.$router.push({name: config.errorPageRouteName, params: {errInfo: "请通过支付宝扫码支付"}}) 
       return ;
     }
 
-    const that = this;
+    //TODO 需要获取到不同的商户的userId
+    // if(channelUserIdUtil.getChannelUserId()){// 存在
+    //   //重定向到对应的支付页面
+    //   this.$router.push({name: wayCodeUtils.getPayWay().routeName})
+    //   return ;
+    // }
+
+    
     //以下为不存在
     getRedirectUrl().then(res => {
       location.href = res.data;

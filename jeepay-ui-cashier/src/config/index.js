@@ -7,19 +7,20 @@
  */
 
 const errorPageRouteName = 'Error' //错误页面名称定义
-const cashierCodePageRouteName = 'QrCashierAlipay' // 收银码
-const passGuardRouteList = [errorPageRouteName, cashierCodePageRouteName]  // 不进入路由守卫的name
+const cashierQrAlipayPageRouteName = 'QrCashierAlipay' // 收银码
+const passGuardRouteList = [errorPageRouteName, cashierQrAlipayPageRouteName]  // 不进入路由守卫的name
 
 /** 定义支付方式 **/
 const payWay = {
-    WXPAY : {wayCode: "WX_JSAPI", routeName: "CashierWxpay"},
-    ALIPAY : {wayCode: "ALI_JSAPI", routeName: "CashierAlipay"}
+    WECHAT : {wayCode: "WX_JSAPI", routeName: "CashierWxpay"},
+    ALIPAY : {wayCode: "ALI_JSAPI", routeName: "QrCashierAlipay"}
 }
 
 export default {
     errorPageRouteName: errorPageRouteName,
     passGuardRouteList: passGuardRouteList,
-    urlTokenName: "jeepayToken", //URL传递的token名称
+    urlTokenName: "token", //URL传递的token名称
     payWay: payWay,
-    cacheToken: ""
+    cacheToken: "",
+    qrCode: ""
 }

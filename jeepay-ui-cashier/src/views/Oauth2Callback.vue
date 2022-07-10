@@ -23,7 +23,7 @@ export default {
     getChannelUserId(allQuery).then(res => {
 
       //设置channelUserId
-      channelUserIdUtil.setChannelUserId(res);
+      channelUserIdUtil.setChannelUserId(res.data);
 
       this.$router.push({name: wayCodeUtils.getPayWay().routeName})
     }).catch(res => {

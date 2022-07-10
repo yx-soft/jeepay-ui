@@ -96,12 +96,17 @@ export default {
 
   mounted() {
     var userId = this.$route.query.userId;
-    //设置channelUserId
-    channelUserIdUtil.setChannelUserId(userId);
+    if(userId){
+     //设置channelUserId
+      channelUserIdUtil.setChannelUserId(userId);
+    }
 
     // 设置QrCode
-    this.qrCode = this.$route.query.qr;
-
+    if(this.$route.query.qr){
+      this.qrCode = this.$route.query.qr; 
+    }else{
+      this.qrCode = config.cacheToken;
+    }
     // 设置商户名称
     this.merchantName = this.$route.query.mchName;
   },
@@ -111,6 +116,7 @@ export default {
     pay: function (){
 
       let that = this;
+
       getQrPayPackage(this.qrCode, this.amount, this.remark).then(res => {
         //订单创建异常
         if(res.code != 0) {

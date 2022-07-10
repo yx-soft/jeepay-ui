@@ -21,9 +21,10 @@ VueRouter.prototype.push = function push (location, onResolve, onReject) {
 Vue.use(VueRouter)
 
 const routes = [
-  {path: '/hub/:jeepayToken', name: 'Hub', component: () => import('../views/Hub.vue')}, //自动分发器
+  {path: '/Qr/:token', name: 'Qr', component: () => import('../views/Qr.vue')}, //支付码分发器
+  {path: '/hub/:token', name: 'Hub', component: () => import('../views/Hub.vue')}, //自动分发器
   {path: '/error', name: 'Error', component: () => import('../views/Error.vue')},
-  {path: '/oauth2Callback/:jeepayToken', name: 'Oauth2Callback', component: () => import('../views/Oauth2Callback.vue')}, //oauth回调地址
+  {path: '/oauth2Callback/:token', name: 'Oauth2Callback', component: () => import('../views/Oauth2Callback.vue')}, //oauth回调地址
   {path: '/cashier', name: 'Cashier', component: () => import('../views/Cashier.vue'), //收银台（该地址无意义）
     children: [
         { path: '/cashier/wxpay', name: 'CashierWxpay', component: () => import('../views/payway/Wxpay.vue') },
