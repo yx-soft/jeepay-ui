@@ -86,7 +86,7 @@ export default {
       typeColor: ["#1678ff"],
       concealSate: "",
       merchantName: "商家", // 付款的商户默认
-      avatar: require("../../assets/icon/zhifu.svg"), // 商户头像默认
+      avatar: require("../../assets/images/ZY.png"), // 商户头像默认
       money: 0,
       amount: "", // 支付金额默认
       resData: {},

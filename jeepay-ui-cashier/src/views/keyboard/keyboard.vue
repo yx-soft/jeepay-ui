@@ -81,6 +81,7 @@ export default {
   name: "Keyboard",
   data() {
     return {
+      isPaymentDisable: false,
       timeOutEvent: 0, //记录触摸时长
       tiemIntervalEvent: 0,
       concealSateC: true,
@@ -119,6 +120,13 @@ export default {
   methods: {
     f() {},
     payment() {
+      if(this.isPaymentDisable){
+          return;
+      }
+      this.isPaymentDisable = true;
+      setTimeout(() => {
+        this.isPaymentDisable = false;
+      }, 3000);
       this.$emit("payment");
     },
     concealSateFn() {

@@ -13,7 +13,8 @@ const passGuardRouteList = [errorPageRouteName, cashierQrAlipayPageRouteName]  /
 /** 定义支付方式 **/
 const payWay = {
     WECHAT : {wayCode: "WX_JSAPI", routeName: "CashierWxpay"},
-    ALIPAY : {wayCode: "ALI_JSAPI", routeName: "QrCashierAlipay"}
+    ALIPAY : {wayCode: "ALI_JSAPI", routeName: "QrCashierAlipay"},
+    DOUYIN : {wayCode: "DY_JSAPI", routeName: "QrCashierDouyin"}, 
 }
 
 export default {

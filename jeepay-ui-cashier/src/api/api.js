@@ -12,6 +12,24 @@ export function getRedirectUrl () {
   })
 }
 
+/** 获取抖音url **/
+export function getDouyinUrl () {
+  return request.request({
+    url: '/api/cashier/douyinUrl',
+    method: 'POST',
+    data: { wayCode: wayCode.getPayWay().wayCode, token: config.cacheToken }
+  })
+}
+
+/** 获取支付码信息 **/
+export function getQrInfo () {
+  return request.request({
+    url: '/api/cashier/qr/info',
+    method: 'POST',
+    data: { wayCode: wayCode.getPayWay().wayCode, qrCode: config.cacheToken } 
+  })
+}
+
 /** 获取url **/
 export function getChannelUserId (redirectData) {
   return request.request({

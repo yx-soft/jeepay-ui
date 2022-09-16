@@ -25,6 +25,10 @@ const getPayWay = function () {
         return config.payWay.ALIPAY;
     }
 
+    if(userAgent.indexOf("aweme") >= 0){
+        return config.payWay.DOUYIN;
+    } 
+
     return null;
 
 }
