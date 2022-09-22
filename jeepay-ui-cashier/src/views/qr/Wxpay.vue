@@ -82,8 +82,8 @@ export default {
       isAllowModifyAmount: true, // 允许编辑金额
       remark: "", // 备注
       myDialogState: false,
-      payType: 0, // 支付方式
-      typeColor: ["#1678ff"],
+      payType: 1, // 支付方式
+      typeColor: ["#1678ff", "#07c160"],
       concealSate: "",
       merchantName: "商家", // 付款的商户默认
       avatar: require("../../assets/images/ZY.png"), // 商户头像默认
@@ -112,23 +112,27 @@ export default {
   },
 
   methods: {
-   
+    
+    // 支付事件
     pay: function (){
-
+      // 该函数执行效果慢
       let that = this;
-
       getQrPayPackage(this.qrCode, this.amount, this.remark).then(res => {
-        //订单创建异常
-        if(res.code != 0) {
+
+        if(res.code != '0') {
           return alert(res.msg);
         }
 
-        if (!window.AlipayJSBridge) {
-          document.addEventListener('AlipayJSBridgeReady', function(){
-            that.doAlipay(res.data.alipayTradeNo);
-          }, false);
+        that.resData = res.data;
+        if (typeof WeixinJSBridge == "undefined"){
+          if( document.addEventListener ){
+            document.addEventListener('WeixinJSBridgeReady', that.onBridgeReady, false);
+          }else if (document.attachEvent){
+            document.attachEvent('WeixinJSBridgeReady', that.onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', that.onBridgeReady);
+          }
         }else{
-          that.doAlipay(res.data.alipayTradeNo);
+          that.onBridgeReady();
         }
 
       }).catch(res => {
@@ -137,35 +141,41 @@ export default {
     },
 
 
-    doAlipay(alipayTradeNo){
-      const that = this
+    /* 唤醒微信支付*/
+    onBridgeReady() {
+
+      let that = this;
+
       // eslint-disable-next-line no-undef
-      AlipayJSBridge.call("tradePay", {
-        tradeNO: alipayTradeNo
-      }, function (data) {
-        if ("9000" == data.resultCode) {
-          // alert('支付成功！');
+      WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', JSON.parse(that.resData.payInfo),
+          function(res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              // 使用以上方式判断前端返回,微信团队郑重提示：
+              //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+              // //重定向
+              if(that.payOrderInfo.returnUrl){
+                location.href = that.payOrderInfo.returnUrl;
+              }else{
+                alert('支付成功！');
+                window.WeixinJSBridge.call('closeWindow')
+              }
 
-          // //重定向
-          if(that.payOrderInfo.returnUrl){
-            location.href = that.payOrderInfo.returnUrl;
-          }else{
-            alert('支付成功！');
-            window.AlipayJSBridge.call('closeWebview')
+            }
+            if (res.err_msg == "get_brand_wcpay_request:cancel") {
+              alert("支付取消");
+              window.WeixinJSBridge.call('closeWindow')
+            }
+            if (res.err_msg == "get_brand_wcpay_request:fail") {
+              alert('支付失败:' + JSON.stringify(res))
+              window.WeixinJSBridge.call('closeWindow')
+            }
+            if (res.err_msg == "total_fee") {
+              alert('缺少参数')
+              window.WeixinJSBridge.call('closeWindow')
+            }
           }
-
-          //‘8000’：后台获取支付结果超时，暂时未拿到支付结果;
-        // ‘6004’：支付过程中网络出错， 暂时未拿到支付结果;
-        }else if("8000" == data.resultCode || "6004" == data.resultCode){ //其他
-
-          alert(JSON.stringify(data));
-          window.AlipayJSBridge.call('closeWebview')
-
-        }else{ ///其他异常信息， 需要取消订单
-          alert('用户已取消！');
-          window.AlipayJSBridge.call('closeWebview')
-        }
-      });
+      );
     },
 
     // 输入备注

@@ -7,12 +7,11 @@
  */
 
 const errorPageRouteName = 'Error' //错误页面名称定义
-const cashierQrAlipayPageRouteName = 'QrCashierAlipay' // 收银码
-const passGuardRouteList = [errorPageRouteName, cashierQrAlipayPageRouteName]  // 不进入路由守卫的name
+const passGuardRouteList = [errorPageRouteName, 'QrCashierAlipay', 'QrCashierWxpay']  // 不进入路由守卫的name
 
 /** 定义支付方式 **/
 const payWay = {
-    WECHAT : {wayCode: "WX_JSAPI", routeName: "CashierWxpay"},
+    WECHAT : {wayCode: "WX_JSAPI", routeName: "QrCashierWxpay"},
     ALIPAY : {wayCode: "ALI_JSAPI", routeName: "QrCashierAlipay"},
     DOUYIN : {wayCode: "DY_JSAPI", routeName: "QrCashierDouyin"}, 
 }

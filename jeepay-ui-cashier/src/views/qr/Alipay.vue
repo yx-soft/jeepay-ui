@@ -83,7 +83,7 @@ export default {
       remark: "", // 备注
       myDialogState: false,
       payType: 0, // 支付方式
-      typeColor: ["#1678ff"],
+      typeColor: ["#1678ff", "#07c160"],
       concealSate: "",
       merchantName: "商家", // 付款的商户默认
       avatar: require("../../assets/images/ZY.png"), // 商户头像默认
@@ -125,17 +125,16 @@ export default {
 
         if (!window.AlipayJSBridge) {
           document.addEventListener('AlipayJSBridgeReady', function(){
-            that.doAlipay(res.data.alipayTradeNo);
+            that.doAlipay(res.data.prepayId);
           }, false);
         }else{
-          that.doAlipay(res.data.alipayTradeNo);
+          that.doAlipay(res.data.prepayId);
         }
 
       }).catch(res => {
         that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
       });
     },
-
 
     doAlipay(alipayTradeNo){
       const that = this
