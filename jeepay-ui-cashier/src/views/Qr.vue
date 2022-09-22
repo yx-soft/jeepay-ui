@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {getQrInfo, getRedirectUrl, getDouyinUrl} from '@/api/api';
+import {getQrInfo} from '@/api/api';
 // import channelUserIdUtil from '@/utils/channelUserId'
 import wayCodeUtils from '@/utils/wayCode'
 import config from "@/config";
@@ -31,34 +31,31 @@ export default {
     //   return;
     // }
 
+    console.log("PayWay" + wayCodeUtils.getPayWay());
+
     getQrInfo().then(res => {
-      var status = res.data.status;
       
       if(res.data.isNeedRedirect){
         location.href = res.data.redirectUrl;
         return ;
       }
       
-      if(status == 1){
+      // var status = res.data.status;
+      // if(status == 1){
 
-        if(wayCodeUtils.getPayWay() == config.payWay.DOUYIN){
+       
+        // if(wayCodeUtils.getPayWay() == config.payWay.DOUYIN){
 
-        //以下为不存在
-        getDouyinUrl().then(res => {
-          // alert("跳转地址：" + res.data)
-          location.href = res.data;
-        }).catch(res => {
-          that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
-        });
+        // //以下为不存在
+        // getDouyinUrl().then(res => {
+        //   // alert("跳转地址：" + res.data)
+        //   location.href = res.data;
+        // }).catch(res => {
+        //   that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
+        // });
 
-          return ;
-        }
-        
-
-        if(wayCodeUtils.getPayWay() != config.payWay.ALIPAY){
-          this.$router.push({name: config.errorPageRouteName, params: {errInfo: "请通过支付宝扫码支付"}}) 
-          return ;
-        }
+        //   return ;
+        // } 
 
        //TODO 需要获取到不同的商户的userId
     // if(channelUserIdUtil.getChannelUserId()){// 存在
@@ -68,19 +65,19 @@ export default {
     // }
 
            //以下为不存在
-        getRedirectUrl().then(res => {
-          location.href = res.data;
-        }).catch(res => {
-          that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
-        });
+      //   getRedirectUrl().then(res => {
+      //     location.href = res.data;
+      //   }).catch(res => {
+      //     that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
+      //   });
 
-      }else{
-        that.$router.push({name: config.errorPageRouteName, params: {errInfo: "支付码未激活"}})
-        return ;
-      }
+      // }else{
+      //   that.$router.push({name: config.errorPageRouteName, params: {errInfo: "支付码未激活"}})
+      //   return ;
+      // }
       
     }).catch(res => {
-      that.$router.push({name: config.errorPageRouteName, params: {errInfo: "获取支付码信息失败" + res.msg}})
+      that.$router.push({name: config.errorPageRouteName, params: {errInfo: res.msg}})
       return ;
     })
 

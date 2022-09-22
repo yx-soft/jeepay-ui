@@ -30,7 +30,8 @@ const routes = [
         { path: '/cashier/wxpay', name: 'CashierWxpay', component: () => import('../views/payway/Wxpay.vue') },
         { path: '/cashier/alipay', name: 'CashierAlipay', component: () => import('../views/payway/Alipay.vue') },
         { path: '/cashier/ysfpay', name: 'CashierYsfpay', component: () => import('../views/payway/Ysfpay.vue') },
-        { path: '/cashier/qr/alipay', name: 'QrCashierAlipay', component: () => import('../views/qr/Alipay.vue') }, 
+        { path: '/cashier/qr/alipay', name: 'QrCashierAlipay', component: () => import('../views/qr/Alipay.vue') },
+        { path: '/cashier/qr/wxpay', name: 'QrCashierWxpay', component: () => import('../views/qr/Wxpay.vue') },  
     ]
   }
 ]
