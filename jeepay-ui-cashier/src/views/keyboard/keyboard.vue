@@ -44,7 +44,7 @@
           <template class="" v-if="it == 'del'">
             <div class="jiao"></div>
             <div class="juxing"></div>
-            <!-- <img src="../../assets/icon/shanchu.svg" alt="" /> -->
+            <img class="shanchu" src="../../assets/icon/shanchu.svg" alt="" /> <!-- -->
           </template>
         </div>
       </div>
@@ -150,7 +150,7 @@ export default {
         item = obj[item];
       }
       this.$emit("enterTheAmount", item);
-      
+
     },
 
     goTouchstart(it, $event) {
@@ -286,6 +286,7 @@ img {
   border-top: 3px solid #2c2c2c;
   border-left: 3px solid #2c2c2c;
   border-radius: 4px;
+  pointer-events: none;
 }
 .juxing {
   width: 40px;
@@ -293,6 +294,9 @@ img {
   border: 3px solid #2c2c2c;
   border-left: none;
   border-radius: 4px;
+}
+.shanchu {
+  margin-left: -50px;
 }
 .keyboard-main .number {
   /* flex-grow: 1; */
